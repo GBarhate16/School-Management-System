@@ -1,0 +1,69 @@
+name: Cleanup
+
+on:
+  pull_request_target:
+    types: [closed]
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Bun.js
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.0
+
+      - name: Install Vercel CLI
+        run: bun install -g vercel
+
+      - name: Delete Vercel Backend Preview Deployment
+        run: |
+          PR_ID=${{ github.event.pull_request.number }}
+          DEPLOY_ALIAS="LearnSync-backend-from-frontend-pr-$PR_ID.vercel.app"
+
+          vercel alias ls --token=${{ secrets.VERCEL_TOKEN }} > vercel-alias-list 2>&1
+          DEPLOYMENT_URL=$(grep "$DEPLOY_ALIAS" vercel-alias-list | awk '{print $1}')
+
+          if [ -z "$DEPLOYMENT_URL" ]; then
+            echo "No deployment found with alias: $DEPLOY_ALIAS"
+            exit 0  # Exit gracefully if no deployment exists
+          fi
+
+          echo "Deleting deployment with alias: $DEPLOYMENT_URL"
+          vercel remove $DEPLOYMENT_URL --token=${{ secrets.VERCEL_TOKEN }} --yes
+
+      - name: Delete Vercel Frontend Preview Deployment
+        run: |
+          PR_ID=${{ github.event.pull_request.number }}
+          DEPLOY_ALIAS="LearnSync-frontend-pr-$PR_ID.vercel.app"
+
+          vercel alias ls --token=${{ secrets.VERCEL_TOKEN }} > vercel-alias-list 2>&1
+          DEPLOYMENT_URL=$(grep "$DEPLOY_ALIAS" vercel-alias-list | awk '{print $1}')
+
+          if [ -z "$DEPLOYMENT_URL" ]; then
+            echo "No deployment found with alias: $DEPLOY_ALIAS"
+            exit 0  # Exit gracefully if no deployment exists
+          fi
+
+          echo "Deleting deployment with alias: $DEPLOYMENT_URL"
+          vercel remove $DEPLOYMENT_URL --token=${{ secrets.VERCEL_TOKEN }} --yes
+
+      - name: Install Neon CLI
+        run: bun install -g neonctl
+
+      - name: Delete Neon Branch
+        run: |
+          BRANCH_NAME="pr-${{ github.event.pull_request.number }}"
+
+          BRANCH_EXISTS=$(neonctl branches list \
+            --api-key ${{ secrets.NEON_TOKEN }} \
+            --project-id ${{ secrets.NEON_PROJECT_ID }} 2>/dev/null | grep -c "$BRANCH_NAME" || true)
+
+          if [ "$BRANCH_EXISTS" -ne 0 ]; then
+            echo "Deleting Neon database branch: $BRANCH_NAME"
+            neonctl branches delete "$BRANCH_NAME" \
+              --api-key ${{ secrets.NEON_TOKEN }} \
+              --project-id ${{ secrets.NEON_PROJECT_ID }}
+          else
+            echo "Neon database branch not found: $BRANCH_NAME. Skipping deletion."
+          fi

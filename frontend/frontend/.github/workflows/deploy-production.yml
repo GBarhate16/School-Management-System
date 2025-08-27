@@ -1,0 +1,25 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bun.js
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.0
+
+      - name: Install Vercel CLI
+        run: bun install -g vercel@latest
+
+      - name: Deploy to Vercel
+        run: |
+          vercel --token=${{ secrets.VERCEL_TOKEN }} --scope abdullah-abdulkareems-projects-0896f126 --prod --regions fra1 --yes
