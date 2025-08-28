@@ -125,8 +125,8 @@ export default function Features() {
         words="Designed for Educators 🧑‍🏫, Loved by Administrators 👨‍💻"
       />
       <p className="mt-4 text-xl opacity-60 lg:w-3/5">
-        LearnSync is packed with everything you need to handle the day-to-day, all
-        in one intuitive platform.
+        LearnSync is packed with everything you need to handle the day-to-day,
+        all in one intuitive platform.
       </p>
       <div className="mt-8">
         <BentoGrid>
