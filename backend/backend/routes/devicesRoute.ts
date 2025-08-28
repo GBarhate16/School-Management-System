@@ -1,4 +1,5 @@
 import express from "express";
+
 import { device } from "../middleware/deviceMiddleware";
 import {
   addAttendance,
