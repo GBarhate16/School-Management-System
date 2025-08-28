@@ -68,6 +68,15 @@ Core Features
 - File uploads: Cloudinary integration
 - Robust UX: React Query caching, dialogs, toasts, tables, filters
 
+Screenshots
+-----------
+
+![Landing page](frontend/frontend/public/image1.png)
+
+![Dashboard school](frontend/frontend/public/image2.png)
+
+![Dashboard View](frontend/frontend/public/image3.png)
+
 Notable API Routes
 ------------------
 - `POST /api/login`, `POST /api/register`
