@@ -6,12 +6,18 @@ type Props = {
 };
 
 export default function GoogleOAuthBtn({ redirectUrl }: Props) {
-  const state = !!redirectUrl ? `&state=${redirectUrl}` : "";
+  const state = redirectUrl ? `&state=${redirectUrl}` : "";
 
-  const URL = `https://accounts.google.com/o/oauth2/auth?redirect_uri=https://LearnSync.com/auth/session/callback&response_type=token&client_id=${process.env.GOOGLE_CLIENT_ID}&scope=openid%20email%20profile${state}`;
+  const redirectUri =
+    process.env.NODE_ENV === "production"
+      ? "https://school-management-system-henna.vercel.app/auth/session/callback"
+      : "http://localhost:3000/auth/session/callback";
+
+  const URL = `https://accounts.google.com/o/oauth2/auth?redirect_uri=${redirectUri}&response_type=token&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&scope=openid%20email%20profile${state}`;
+
   return (
-    <button className="hover:bg-muted w-full cursor-pointer rounded-md border font-semibold duration-100">
-      <Link href={URL} className="flex items-center justify-center p-1">
+    <button className="hover:bg-muted flex w-full cursor-pointer items-center justify-center rounded-md border p-1 font-semibold duration-100">
+      <Link href={URL} className="flex items-center justify-center">
         <GoogleIcon className="size-8" />
         <span>Google</span>
       </Link>
