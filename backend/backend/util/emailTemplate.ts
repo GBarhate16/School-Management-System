@@ -3,11 +3,10 @@ export const emailTemplate = `<div>
       <tr>
         <td align="center">
           <table cellpadding="0" cellspacing="0" width="600" bgcolor="#ffffff" style="border-radius:4px; overflow:hidden;">
-            <!-- Logo and App Name -->
+            <!-- Logo -->
             <tr>
-              <td align="left" style="padding: 40px; background-color: #28362C; display: flex; align-items: center;">
-                <img src="{{logoUrl}}" alt="Logo" width="50" style="display: block; margin-right: 10px;" />
-                <span style="color: #ffffff; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold;">LearnSync</span>
+              <td align="left" style="padding: 40px; background-color: #28362C;">
+                <img src="{{logoUrl}}" alt="Logo" width="150" style="display: block;" />
               </td>
             </tr>
 
@@ -47,7 +46,7 @@ export const emailTemplate = `<div>
             <!-- Link fallback -->
             <tr>
               <td style="padding: 10px 40px 0 40px; font-family: Arial, sans-serif; font-size: 14px; color: #777777;">
-                <p style="margin: 0;">If you don't see the button, click the link below:</p>
+                <p style="margin: 0;">If you don’t see the button, click the link below:</p>
                 <a href="{{verifyUrl}}" target="_blank" style="color: #0a4a38; word-break: break-all;">{{verifyUrl}}</a>
               </td>
             </tr>
@@ -55,7 +54,7 @@ export const emailTemplate = `<div>
             <!-- Footer -->
             <tr>
               <td align="center" style="padding: 30px 40px 40px 40px; font-family: Arial, sans-serif; font-size: 12px; color: #999999;">
-                If you didn't request this, you can safely ignore this email.<br />
+                If you didn’t request this, you can safely ignore this email.<br />
                 &copy; {{year}} LearnSync. All rights reserved.
               </td>
             </tr>

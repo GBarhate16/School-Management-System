@@ -97,13 +97,13 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {/* <DropdownMenuGroup>
+            <DropdownMenuGroup>
               <DropdownMenuItem>
-                {/* <Settings /> */}
-                {/* Profile settings 
+                <Settings />
+                Profile settings
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
                 deleteCookie("token");

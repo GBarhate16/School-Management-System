@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import PenwwwsIcon from "@/components/icons/Penwwws";
 import clsx from "clsx";
 import Link from "next/link";
 
@@ -45,7 +44,6 @@ export default function LandingPageNavbar({
           },
         )}
       >
-        <PenwwwsIcon className="size-5 md:size-8" />
         <h1 className="font-bold md:text-2xl">LearnSync</h1>
       </Link>
       <div className="text-sm md:text-base">

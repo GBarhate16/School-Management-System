@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-export default function PenwwwsIcon(props: SVGProps<SVGSVGElement>) {
+export default function LearnSyncIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       width={299}

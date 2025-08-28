@@ -1,6 +1,5 @@
 import Link from "next/link";
 import GoogleOAuthBtn from "@/components/features/auth/GoogleOAuthBtn";
-import PenwwwsIcon from "@/components/icons/Penwwws";
 import SignupForm from "@/components/features/auth/SignupForm";
 import AuthPromoAside from "@/components/features/auth/AuthPromoAside";
 
@@ -12,7 +11,6 @@ export default function SignupPage() {
           href="/"
           className="text-primary mb-auto flex items-center gap-1 self-start py-2 text-lg font-semibold md:hidden"
         >
-          <PenwwwsIcon className="h-5 w-5" />
           <span>LearnSync</span>
         </Link>
         <div className="flex h-full w-full flex-col items-start justify-center gap-6 md:w-[30rem]">

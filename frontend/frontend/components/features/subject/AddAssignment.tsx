@@ -84,7 +84,7 @@ export default function AddAssignment({ schoolId, subjectId }: Props) {
     try {
       await axios.post(
         `/school/${schoolId}/subject/${subjectId}/assignment`,
-        { ...data, deadline: date?.toISOString() },
+        { ...data, deadline: date },
         {
           headers: { Authorization: token },
         },

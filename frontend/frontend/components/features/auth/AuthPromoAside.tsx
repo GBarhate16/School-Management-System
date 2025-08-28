@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PenwwwsIcon from "@/components/icons/Penwwws";
 
 export default function AuthPromoAside() {
   return (
@@ -9,10 +8,8 @@ export default function AuthPromoAside() {
         href="/"
         className="absolute top-8 left-8 flex items-center gap-2 text-lg font-semibold"
       >
-        <PenwwwsIcon className="size-6" />
         <span>LearnSync</span>
       </Link>
-      <PenwwwsIcon className="text-primary-50/5 absolute -top-40 -right-40 h-[45rem] w-[45rem]" />
       <div className="flex flex-col items-center justify-center gap-4 text-center lg:w-[30rem]">
         <h1 className="center text-center font-bold text-white md:text-4xl lg:text-5xl">
           Effortlessly manage your school with ease.

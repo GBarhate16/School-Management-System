@@ -51,25 +51,10 @@ export default function SignupForm() {
         path: "/",
       });
       router.push(`/confirm-email?email=${formData.email}`);
-      console.log("User signed up successfully:", res.data);
     } catch (err) {
-      // const error = err as AxiosError;
-      // console.error("Could not sign up: ", error.response?.data);
-      // form.setError("root", { message: error.response?.data as string });
-
       const error = err as AxiosError;
       console.error("Could not sign up: ", error);
-
-      const errorData = error.response?.data as
-        | { message?: string }
-        | undefined;
-
-      const errorMessage =
-        typeof errorData === "string"
-          ? errorData
-          : errorData?.message || "Something went wrong";
-
-      form.setError("root", { message: errorMessage });
+      form.setError("root", { message: error.response?.data as string });
     }
   }
 

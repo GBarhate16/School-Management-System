@@ -345,13 +345,12 @@ export const registerUser = async (req: Request, res: Response) => {
     });
 
     const url = req.headers.origin || "http://localhost:3000";
-    const logoUrl = "https://res.cloudinary.com/dr2evgkxa/image/upload/v1748427608/logo_jr7xsc.png"; // Use the provided Cloudinary URL
 
     const activateUrl = `${url}/activate/${authToken.token}`;
 
     const year = new Date().getFullYear();
     const html = emailTemplate
-      .replace("{{logoUrl}}", logoUrl)
+      .replace("{{logoUrl}}", `${url}/images/LearnSync-full-logo.png`)
       .replace("{{userName}}", newUser.fullName)
       .replace(/{{verifyUrl}}/g, activateUrl)
       .replace("{{year}}", year.toString());

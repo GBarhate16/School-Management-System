@@ -25,8 +25,7 @@ export const inviteUser = async (req: Request, res: Response) => {
     }
 
     const inviteTokenString =
-      crypto.randomUUID().replace(/-/g, "") +
-      crypto.randomUUID().replace(/-/g, "");
+      crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
 
     const invite = await db.inviteToken.create({
       data: {
@@ -37,9 +36,7 @@ export const inviteUser = async (req: Request, res: Response) => {
     });
 
     if (!invite) {
-      return res
-        .status(500)
-        .send("There is an error while handling your request");
+      return res.status(500).send("There is an error while handling your request");
     }
 
     return res.status(200).send(invite);
@@ -132,9 +129,7 @@ export const acceptInvitation = async (req: Request, res: Response) => {
     });
 
     if (!!doesUserHaveAddmission) {
-      return res
-        .status(403)
-        .send("You already sent an admission request to this school");
+      return res.status(403).send("You already sent an admission request to this school");
     }
 
     const admission = await db.inviteAdmission.create({
@@ -213,8 +208,7 @@ export const admissionReview = async (req: Request, res: Response) => {
       return res.status(400).send("User is already in this school");
     }
 
-    const statusEnum =
-      status.toLowerCase() == "accept" ? "ACCEPTED" : "REJECTED";
+    const statusEnum = status.toLowerCase() == "accept" ? "ACCEPTED" : "REJECTED";
 
     const admission = await db.inviteAdmission.update({
       where: {
@@ -253,10 +247,7 @@ export const removeFromSchool = async (req: Request, res: Response) => {
       return res.status(400).send("Missing required fields");
     }
 
-    if (
-      !Array.isArray(userIds) ||
-      userIds.some((id) => typeof id !== "number")
-    ) {
+    if (!Array.isArray(userIds) || userIds.some((id) => typeof id !== "number")) {
       return res.status(400).send("Invalid user ids");
     }
 
@@ -272,9 +263,7 @@ export const removeFromSchool = async (req: Request, res: Response) => {
     if (schoolMembers.length != userIds.length) {
       return res
         .status(404)
-        .send(
-          "A user or some users provided are not in that school or not found"
-        );
+        .send("A user or some users provided are not in that school or not found");
     }
 
     await db.memberOnSubject.deleteMany({
@@ -469,10 +458,8 @@ export const getSchool = async (req: Request, res: Response) => {
         ...rest,
         _count: {
           ..._count,
-          students: allMembers.filter((member) => member.role == Role.STUDENT)
-            .length,
-          teachers: allMembers.filter((member) => member.role == Role.TEACHER)
-            .length,
+          students: allMembers.filter((member) => member.role == Role.STUDENT).length,
+          teachers: allMembers.filter((member) => member.role == Role.TEACHER).length,
         },
       };
     }
@@ -869,10 +856,7 @@ export const assignToSubject = async (req: Request, res: Response) => {
       return res.status(400).send("Missing required fields");
     }
 
-    if (
-      !Array.isArray(userIds) ||
-      userIds.some((id) => typeof id !== "number")
-    ) {
+    if (!Array.isArray(userIds) || userIds.some((id) => typeof id !== "number")) {
       return res.status(400).send("Invalid user ids");
     }
 
@@ -904,8 +888,7 @@ export const assignToSubject = async (req: Request, res: Response) => {
     });
 
     const userIdsWithoutAlreadyAssigned = userIds.filter(
-      (userId) =>
-        !alreadySubjectMembers.some((member) => member.userId == userId)
+      (userId) => !alreadySubjectMembers.some((member) => member.userId == userId)
     );
 
     console.log(userIdsWithoutAlreadyAssigned);
@@ -916,10 +899,7 @@ export const assignToSubject = async (req: Request, res: Response) => {
           userId,
           schoolId: req.params.id,
           subjectId: Number(req.params.subjectId),
-          role:
-            as.toLowerCase() == "student"
-              ? SubjectRole.STUDENT
-              : SubjectRole.TEACHER,
+          role: as.toLowerCase() == "student" ? SubjectRole.STUDENT : SubjectRole.TEACHER,
         };
       }),
     });
@@ -952,10 +932,7 @@ export const unAssignFromSubject = async (req: Request, res: Response) => {
       return res.status(400).send("Missing required fields");
     }
 
-    if (
-      !Array.isArray(userIds) ||
-      userIds.some((id) => typeof id !== "number")
-    ) {
+    if (!Array.isArray(userIds) || userIds.some((id) => typeof id !== "number")) {
       return res.status(400).send("Invalid user ids");
     }
 
@@ -1221,9 +1198,7 @@ export const addDocument = async (req: Request, res: Response) => {
     }
 
     if (
-      !url.startsWith(
-        `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`
-      )
+      !url.startsWith(`https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`)
     ) {
       return res.status(400).send("Invalid file url");
     }
@@ -1361,15 +1336,11 @@ export const editDocument = async (req: Request, res: Response) => {
 
     let message = "";
     if (editedDocument.name != document.name) {
-      message.concat(
-        `document name: ${document.name} -> ${editedDocument.name} `
-      );
+      message.concat(`document name: ${document.name} -> ${editedDocument.name} `);
     }
 
     if (editedDocument.topicId != document.topicId) {
-      message.concat(
-        `document topic: ${document.topicId} -> ${editedDocument.topicId}`
-      );
+      message.concat(`document topic: ${document.topicId} -> ${editedDocument.topicId}`);
     }
 
     await db.log.create({
@@ -1571,11 +1542,8 @@ export const addAssignment = async (req: Request, res: Response) => {
       return res.status(403).send("Forbidden");
     }
 
-    const {
-      title,
-      url,
-      deadline,
-    }: { title: string; url: string; deadline: Date } = req.body;
+    const { title, url, deadline }: { title: string; url: string; deadline: Date } =
+      req.body;
 
     if (!title || !deadline) {
       return res.status(400).send("Missing required fields");
@@ -1637,19 +1605,13 @@ export const addAssignment = async (req: Request, res: Response) => {
         format = cloudinaryRes.data.format;
         resourceType = cloudinaryRes.data.resource_type.toUpperCase();
         publicId = cloudinaryRes.data.public_id;
-        fileName = cloudinaryRes.data.display_name || publicId;
+        fileName = cloudinaryRes.data.display_name;
 
         if (resourceType == "RAW") {
           format = public_url.split("/").pop().split(".").pop();
         }
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.log(error.message);
-          return res.status(500).send({ message: error.message });
-        } else {
-          console.log("Unexpected error", error);
-          return res.status(500).send({ message: "Unexpected error occurred" });
-        }
+      } catch (error) {
+        return res.status(404).send(error);
       }
     }
 
@@ -1685,14 +1647,11 @@ export const addAssignment = async (req: Request, res: Response) => {
       },
     });
 
-    const response = !document
-      ? assignment
-      : { ...assignment, document: document };
+    const response = !document ? assignment : { ...assignment, document: document };
 
     return res.status(201).json(response);
   } catch (error: any) {
     console.log(error.message);
-    console.log("AddAssignment Error: ", error);
     return res.status(500).send({ message: error.message });
   }
 };
@@ -1972,9 +1931,7 @@ export const addAssignmentSubmission = async (req: Request, res: Response) => {
     let public_url;
 
     if (
-      !url.startsWith(
-        `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`
-      )
+      !url.startsWith(`https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`)
     ) {
       return res.status(400).send("Invalid file url");
     }
@@ -1985,11 +1942,8 @@ export const addAssignmentSubmission = async (req: Request, res: Response) => {
       return res.status(400).send("Invalid file url");
     }
 
-    // publicId = publicIdAndFormat.split(".")[0];
-    // format = publicIdAndFormat.split(".")[1];
-    const lastDotIndex = publicIdAndFormat.lastIndexOf(".");
-    publicId = publicIdAndFormat.slice(0, lastDotIndex);
-    format = publicIdAndFormat.slice(lastDotIndex + 1);
+    publicId = publicIdAndFormat.split(".")[0];
+    format = publicIdAndFormat.split(".")[1];
 
     if (format == "png" || format == "jpg" || format == "jpeg") {
       resourceType = "IMAGE";
@@ -2060,10 +2014,7 @@ export const addAssignmentSubmission = async (req: Request, res: Response) => {
 // @desc    Delete an assignment submission
 // @route   DELETE /api/school/:id/subject/:subjectId/assignment/:assignmentId/submission/:submissionId
 // @access  Private
-export const deleteAssignmentSubmission = async (
-  req: Request,
-  res: Response
-) => {
+export const deleteAssignmentSubmission = async (req: Request, res: Response) => {
   try {
     const isSubjectMember = await db.memberOnSubject.findFirst({
       where: {
@@ -2546,10 +2497,7 @@ export const assignToGroup = async (req: Request, res: Response) => {
       return res.status(400).send("Missing required fields");
     }
 
-    if (
-      !Array.isArray(userIds) ||
-      userIds.some((id) => typeof id !== "number")
-    ) {
+    if (!Array.isArray(userIds) || userIds.some((id) => typeof id !== "number")) {
       return res.status(400).send("Invalid user ids");
     }
 
@@ -2629,10 +2577,7 @@ export const unAssignFromGroup = async (req: Request, res: Response) => {
       return res.status(400).send("Missing required fields");
     }
 
-    if (
-      !Array.isArray(userIds) ||
-      userIds.some((id) => typeof id !== "number")
-    ) {
+    if (!Array.isArray(userIds) || userIds.some((id) => typeof id !== "number")) {
       return res.status(400).send("Invalid user ids");
     }
 
@@ -2728,8 +2673,7 @@ export const addMarksTableRow = async (req: Request, res: Response) => {
       return res.status(403).send("Forbidden");
     }
 
-    const { name, max, count }: { name: string; max: number; count: boolean } =
-      req.body;
+    const { name, max, count }: { name: string; max: number; count: boolean } = req.body;
 
     if (
       typeof name !== "string" ||
@@ -2796,8 +2740,7 @@ export const editMarksTableRow = async (req: Request, res: Response) => {
       return res.status(404).send("Row not found");
     }
 
-    const { name, max, count }: { name: string; max: number; count: boolean } =
-      req.body;
+    const { name, max, count }: { name: string; max: number; count: boolean } = req.body;
 
     if (
       typeof name !== "string" ||
@@ -2957,9 +2900,7 @@ export const getStudentMarksTable = async (req: Request, res: Response) => {
       },
     });
 
-    return res
-      .status(200)
-      .json({ user: isStudentSubjectMember.user, rows: marksTable });
+    return res.status(200).json({ user: isStudentSubjectMember.user, rows: marksTable });
   } catch (error: any) {
     console.log(error.message);
     return res.status(500).send({ message: error.message });
@@ -3049,9 +2990,7 @@ export const addMarksToStudentTable = async (req: Request, res: Response) => {
     let onlyChangedMarks = [];
 
     for (const mark of marks) {
-      const isMarkFound = studentOldMarks.find(
-        (m) => m.tableRowId == mark.rowId
-      );
+      const isMarkFound = studentOldMarks.find((m) => m.tableRowId == mark.rowId);
       const rowName = marksTableRows.find((row) => row.id == mark.rowId)?.name;
 
       if (!isMarkFound && mark.value != 0) {
@@ -3451,9 +3390,7 @@ export const getAttendanceSessionAttendersAndNonAttenders = async (
     });
 
     const response = subjectMembers.map((member) => {
-      const isAttender = attenders.find(
-        (attender) => attender.user.id == member.user.id
-      );
+      const isAttender = attenders.find((attender) => attender.user.id == member.user.id);
 
       return {
         ...member.user,
